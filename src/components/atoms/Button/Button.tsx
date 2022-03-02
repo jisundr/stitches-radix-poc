@@ -2,15 +2,20 @@ import { CSS } from "@stitches/react";
 import { ComponentProps, ElementRef, forwardRef } from "react";
 import { styled } from "stitches.config";
 
-const DEFAULT_TAG = "button";
+export const BUTTON_TAG = "button";
 
-const StyledButton = styled(DEFAULT_TAG, {
+export enum ButtonSizes {
+  small = "small",
+  large = "large",
+}
+
+const StyledButton = styled(BUTTON_TAG, {
   padding: "0.5rem 1rem",
   fontWeight: "bold",
+  fontSize: "0.825rem",
   borderRadius: "0.25rem",
   border: "solid $gray300 1px",
   backgroundColor: "white",
-
   "&:hover": {
     backgroundColor: "$gray100",
   },
@@ -21,13 +26,32 @@ const StyledButton = styled(DEFAULT_TAG, {
     backgroundColor: "$gray300",
     color: "$gray400",
   },
+
+  variants: {
+    size: {
+      [ButtonSizes.small as string]: {
+        padding: "0.25rem 0.75rem",
+        fontSize: "0.75rem",
+      },
+      [ButtonSizes.large as string]: {
+        padding: "0.75rem 1.25rem",
+        fontSize: "1rem",
+      },
+    },
+  },
 });
-type StyledButtonProps = ComponentProps<typeof StyledButton> & {
+
+export type StyledButtonProps = ComponentProps<typeof StyledButton> & {
   css?: CSS;
+  size?: string;
 };
 
-const Button = forwardRef<ElementRef<typeof DEFAULT_TAG>, StyledButtonProps>(
-  (props, ref) => <StyledButton ref={ref} {...props} />
+/**
+ * A basic UI component that allows users to perform action.
+ *
+ */
+const Button = forwardRef<ElementRef<typeof BUTTON_TAG>, StyledButtonProps>(
+  (props, ref) => <StyledButton {...props} ref={ref} />
 );
 
 export default Button;
